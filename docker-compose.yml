@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+
+  bianance-stream:
+    image: bianance-stream
+    build:
+      context: ./
+    volumes:
+      - type: bind
+        source: ./examples/config.klines.gin
+        target: /config.gin
+    environment:
+      - BINANCE_STREAM_CONFIG=/config.gin
+    restart: unless-stopped
