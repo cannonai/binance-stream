@@ -1,0 +1,8 @@
+# import custom handler(s)
+import custom_handlers
+
+stream.stream = 'kline_1m'
+stream.symbols = ['btcusdt', 'ethusdt']
+
+# set use of custom handler
+stream.handler = @custom_handlers.CustomPrintHandler()

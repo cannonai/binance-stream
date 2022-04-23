@@ -1,11 +1,15 @@
 # %%
+import sys
+import os
+
 import gin
 import click
-
 from binance.websocket.spot.websocket_client import SpotWebsocketClient as WebsocketClient
 
-
 from binance_stream import handlers, utils
+
+# %%
+sys.path.append(os.getcwd())
 
 # %%
 def start_stream(stream, symbols, handler):
@@ -19,12 +23,9 @@ def start_stream(stream, symbols, handler):
 
 # %%
 @gin.configurable()
-def stream(stream='trade', symbols=None, handler=handlers.PrintHandler, **kwargs):
+def stream(stream='trade', symbols=None, handler=handlers.PrintHandler(), **kwargs):
     if symbols is None:
         symbols = utils.get_trading_symbols()
-    
-    # init handler
-    handler = handler()
     
     # start stream
     start_stream(stream, symbols, handler, **kwargs)
