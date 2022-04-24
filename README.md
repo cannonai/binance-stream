@@ -30,7 +30,7 @@ For more examples, see `examples/`.
 
 ### Using Custom Handlers
 
-Handlers define how stream messages are processed. A few handlers are packages with binance-stream, including the `PrintHandler` and `FileHandler`. 
+Handlers define how stream messages are processed. A few handlers are packaged with binance-stream, including the `PrintHandler` and `FileHandler`. 
 One may also define custom handlers and import them directly into the config file to be used by binance-stream at runtime. A minimal example is shown below. 
 
 ```
@@ -67,6 +67,15 @@ stream.symbols = ['btcusdt', 'ethusdt']
 stream.handler = @custom_handlers.CustomPrintHandler()
 ```
 
+### Run with Docker
+
+To run with docker, simply mount your configuration file to `/config.gin` inside the container. 
+
+```
+docker run ghcr.io/cannonai/binance-stream:latest --mount examples/config.klines.gin:/config.gin
+```
+
+You may also check out the [docker-compose.yml](https://github.com/cannonai/binance-stream/blob/main/docker-compose.yml) example. 
 
 ---
 
