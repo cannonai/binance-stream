@@ -76,16 +76,17 @@ from kafka import KafkaProducer
 
 @gin.configurable()
 class KafkaHandler(BaseHandler):
-    def __init__(self, topic, **kwargs) -> None:
+    def __init__(self, topic, schema=None, **kwargs) -> None:
         super().__init__()
         
         self.topic = topic
+        self.schema = schema
         self._producer = KafkaProducer(**kwargs, value_serializer = lambda x: json.dumps(x).encode('UTF-8'))
     
     def process_msg(self, msg):
-        if msg is None:
-            print('IS NONE!!')
-        
+        if self.schema is not None:
+            msg = {'schema': self.schema, 'payload': msg}
+            
         self._producer.send(topic=self.topic, value=msg)
 
 # %%

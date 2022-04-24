@@ -9,3 +9,20 @@ handlers.HandlerChain.handlers = [@handlers.KafkaHandler()]
 
 handlers.KafkaHandler.bootstrap_servers = 'kafka:9092'
 handlers.KafkaHandler.topic = 'sometopic'
+
+handlers.KafkaHandler.schema = {
+    'type': 'struct',
+    'fields': [
+        {'type': 'string', 'optional': False, 'field': 'e'},
+        {'type': 'int64', 'optional': False, 'field': 'E'},
+        {'type': 'string', 'optional': False, 'field': 's'},
+        {'type': 'int64', 'optional': False, 'field': 't'},
+        {'type': 'string', 'optional': False, 'field': 'p'},
+        {'type': 'string', 'optional': False, 'field': 'q'},
+        {'type': 'int64', 'optional': False, 'field': 'b'},
+        {'type': 'int64', 'optional': False, 'field': 'a'},
+        {'type': 'int64', 'optional': False, 'field': 'T'},
+        {'type': 'boolean', 'optional': False, 'field': 'm'},
+        {'type': 'boolean', 'optional': False, 'field': 'M'},
+    ]
+}
