@@ -8,7 +8,7 @@ stream.handler = @handlers.HandlerChain()
 handlers.HandlerChain.handlers = [@handlers.KafkaHandler()]
 
 handlers.KafkaHandler.bootstrap_servers = 'kafka:9092'
-handlers.KafkaHandler.topic = 'sometopic'
+handlers.KafkaHandler.topic = 'trades'
 
 handlers.KafkaHandler.schema = {
     'type': 'struct',
