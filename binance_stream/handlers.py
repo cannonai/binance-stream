@@ -1,7 +1,9 @@
 # %%
 import sys
 import random
+import json
 
+from kafka import KafkaProducer
 import gin
 
 # %%
@@ -71,9 +73,6 @@ class DropoutHandler(BaseHandler):
             return msg
 
 # %%
-import json
-from kafka import KafkaProducer
-
 @gin.configurable()
 class KafkaHandler(BaseHandler):
     def __init__(self, topic, schema=None, **kwargs) -> None:

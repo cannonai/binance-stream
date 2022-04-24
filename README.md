@@ -79,4 +79,4 @@ You may also check out the [docker-compose.yml](https://github.com/cannonai/bina
 
 ---
 
-*Version 0.3.0*
+*Version 0.4.0*
