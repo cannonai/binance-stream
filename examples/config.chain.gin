@@ -1,0 +1,10 @@
+from binance_stream import handlers
+
+stream.stream = 'trade'
+stream.symbols = ['btcusdt', 'ethusdt']
+
+stream.handler = @handlers.HandlerChain()
+
+handlers.HandlerChain.handlers = [@handlers.DropoutHandler(), @handlers.PrintHandler()]
+
+handlers.DropoutHandler.dropout_rate = 0.50
