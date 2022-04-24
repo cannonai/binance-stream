@@ -1,3 +1,4 @@
 binance-connector @ git+https://github.com/binance/binance-connector-python.git@v1.11.0
 gin-config
 click
+kafka-python

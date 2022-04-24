@@ -21,6 +21,7 @@ class BaseHandler():
 class PrintHandler(BaseHandler):
     def __init__(self, out=sys.stderr) -> None:
         super().__init__()
+        
         self._out = out
     
     def process_msg(self, msg):
@@ -30,6 +31,8 @@ class PrintHandler(BaseHandler):
 @gin.configurable()
 class FileHandler(BaseHandler):
     def __init__(self, fname) -> None:
+        super().__init__()
+        
         self._file = open(fname, 'w')
     
     def process_msg(self, msg):
@@ -37,18 +40,10 @@ class FileHandler(BaseHandler):
 
 # %%
 @gin.configurable()
-class KafkaHandler():
-    def __init__(self) -> None:
-        pass
-    
-    def __call__(self, msg):
-        #kafka_producer.send(topic='binance-trades', value=msg)
-        pass
-
-# %%
-@gin.configurable()
 class HandlerChain(BaseHandler):
     def __init__(self, handlers) -> None:
+        super().__init__()
+        
         self._handler_chain = self._make_chain(handlers)
     
     def _make_chain(self, handlers):
@@ -67,8 +62,30 @@ class HandlerChain(BaseHandler):
 @gin.configurable()
 class DropoutHandler(BaseHandler):
     def __init__(self, dropout_rate=0.5) -> None:
+        super().__init__()
+        
         self.dropout_rate = dropout_rate
     
     def process_msg(self, msg):
         if random.random() > self.dropout_rate:
             return msg
+
+# %%
+import json
+from kafka import KafkaProducer
+
+@gin.configurable()
+class KafkaHandler(BaseHandler):
+    def __init__(self, topic, **kwargs) -> None:
+        super().__init__()
+        
+        self.topic = topic
+        self._producer = KafkaProducer(**kwargs, value_serializer = lambda x: json.dumps(x).encode('UTF-8'))
+    
+    def process_msg(self, msg):
+        if msg is None:
+            print('IS NONE!!')
+        
+        self._producer.send(topic=self.topic, value=msg)
+
+# %%
