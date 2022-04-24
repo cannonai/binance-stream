@@ -1,0 +1,11 @@
+from binance_stream import handlers
+
+stream.stream = 'trade'
+stream.symbols = ['btcusdt', 'ethusdt']
+
+stream.handler = @handlers.HandlerChain()
+
+handlers.HandlerChain.handlers = [@handlers.KafkaHandler()]
+
+handlers.KafkaHandler.bootstrap_servers = 'kafka:9092'
+handlers.KafkaHandler.topic = 'trades'

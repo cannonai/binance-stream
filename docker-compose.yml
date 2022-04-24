@@ -3,13 +3,13 @@ version: '3.7'
 services:
 
   bianance-stream:
-    image: bianance-stream
-    build:
-      context: ./
+    image: ghcr.io/cannonai/binance-stream:latest
     volumes:
       - type: bind
-        source: ./examples/config.klines.gin
+        source: ./examples/config.gin
         target: /config.gin
     environment:
       - BINANCE_STREAM_CONFIG=/config.gin
+    networks:
+      - kafka-network
     restart: unless-stopped

@@ -17,7 +17,7 @@ def start_stream(stream, symbols, handler):
     m = 500 # subscribe rate
     for i in range(len(symbols) % m):
         stream_list = [f'{symbol}@{stream}' for symbol in symbols][(i*m):((i+1)*m)]
-        ws_client.instant_subscribe(stream=stream_list, callback=handler)
+        ws_client.instant_subscribe(stream=stream_list, callback=lambda raw_msg: handler(raw_msg['data']))
         #time.sleep(0.5)
     ws_client.start()
 
