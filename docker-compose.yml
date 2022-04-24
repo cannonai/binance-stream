@@ -2,73 +2,14 @@ version: '3.7'
 
 services:
 
-  zookeeper:
-    image: 'bitnami/zookeeper:3.6.3'
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
-    networks:
-      - kafka-network
-    restart: unless-stopped
-
-  kafka:
-    image: 'bitnami/kafka:2.8.1'
-    depends_on:
-      - zookeeper
-    environment:
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
-    networks:
-      - kafka-network
-    restart: unless-stopped
-
   bianance-stream:
-    image: bianance-stream
-    build:
-      context: ./
+    image: ghcr.io/cannonai/binance-stream:latest
     volumes:
       - type: bind
-        source: ./examples/config.kafka.gin
+        source: ./examples/config.gin
         target: /config.gin
     environment:
       - BINANCE_STREAM_CONFIG=/config.gin
     networks:
       - kafka-network
     restart: unless-stopped
-
-  postgres:
-    image: postgres:11-alpine
-    environment:
-      - LANG=en_EN.utf8
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgresdb
-      - POSTGRES_PASSWORD=toor
-    networks:
-      - kafka-network
-    ports:
-      - 5432:5432
-    restart: unless-stopped
-
-  connect-jdbc:
-    image: ghcr.io/mhorlacher/kafka-connect-jdbc:latest
-    environment:
-      - CONNECT_REST_PORT=8083
-      - CONNECT_REST_ADVERTISED_HOST_NAME=kafka-connect-jdbc
-      - CONNECT_ZOOKEEPER_CONNECT=zookeeper:2181
-    networks:
-      - kafka-network
-    restart: unless-stopped
-    volumes:
-      - type: bind
-        source: ./examples/connect-jdbc/worker.properties
-        target: /worker.properties
-      - type: bind
-        source: ./examples/connect-jdbc/connector.properties.d
-        target: /connector.properties.d
-
-networks:
-
-  kafka-network:
-    external: false
-    name: kafka-network
